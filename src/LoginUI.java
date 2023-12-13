@@ -1,52 +1,58 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoginUI {
-    JFrame frame;
-    JTextField emailField;
-    JPasswordField passwordField;
-
-    public LoginUI() {
-        frame = new JFrame("Login");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1200, 675);
-        frame.setLayout(new BorderLayout());
-        frame.setLocationRelativeTo(null);
-
-        JPanel loginPanel = new JPanel(new GridBagLayout());
-        	
-        	GridBagConstraints gbc = new GridBagConstraints();
-            gbc.gridx = 0;
-            gbc.gridy = 0;
-            gbc.anchor = GridBagConstraints.CENTER;
-    	
-		        JLabel emailLabel = new JLabel("Email:");
-		        emailField = new JTextField();
-		        JLabel passwordLabel = new JLabel("Password:");
-		        passwordField = new JPasswordField();
-		        JButton loginButton = new JButton("Login");
-		        
-		        passwordField.setPreferredSize(new Dimension(500, 25));
-		        emailField.setPreferredSize(new Dimension(500, 25));
-	        
-	        gbc.gridy = 1;
-	        loginPanel.add(emailLabel, gbc);
-	        
-	        gbc.gridy = 2;
-	        loginPanel.add(emailField, gbc);
-	        
-	        gbc.gridy = 3;
-	        loginPanel.add(passwordLabel, gbc);
-	        
-	        gbc.gridy = 4;
-	        loginPanel.add(passwordField, gbc);
-	        
-	        gbc.gridy = 5; 
-	        loginPanel.add(loginButton, gbc);
+    private JPanel panel;
+    private JTextField emailField;
+    private JPasswordField passwordField;
+    private JFrame frame; 
     
-        loginPanel.setPreferredSize(new Dimension(600, 500));
+    public LoginUI(JFrame frame) {
+        this.frame = frame;
+        createPanel();
+    }
+
+    public void createPanel() {
+        panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        JPanel centerPanel = new JPanel(new GridBagLayout());
+        	GridBagConstraints gbc = new GridBagConstraints();
+        	gbc.gridx = 0;
+        	gbc.gridy = 0;
+        	gbc.anchor = GridBagConstraints.CENTER;
+
+        JLabel emailLabel = new JLabel("Email:");
+        emailField = new JTextField();
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordField = new JPasswordField();
+        JButton loginButton = new JButton("Login");
+
+        	passwordField.setPreferredSize(new Dimension(200, 25));
+        	emailField.setPreferredSize(new Dimension(200, 25));
+
+        	emailLabel.setForeground(Color.WHITE);
+        	passwordLabel.setForeground(Color.WHITE);
+
+        	gbc.gridy = 1;
+        	centerPanel.add(emailLabel, gbc);
+
+        	gbc.gridy = 2;
+        	centerPanel.add(emailField, gbc);
+
+        	gbc.gridy = 3;
+        	centerPanel.add(passwordLabel, gbc);
+
+        	gbc.gridy = 4;
+        	centerPanel.add(passwordField, gbc);
+
+        	gbc.gridy = 5;
+        	centerPanel.add(loginButton, gbc);
+        
+        	panel.add(centerPanel, BorderLayout.CENTER);
 
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -59,13 +65,10 @@ public class LoginUI {
                 } else if (email.equals("lecturer@oodj.com") && password.equals("abc123")) {
                 	openLecturerUI();
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Invalid email or password!");
+                    JOptionPane.showMessageDialog(panel, "Invalid email or password!");
                 }
             }
         });
-
-        frame.add(loginPanel, BorderLayout.CENTER);
-        frame.setVisible(true);
     }
 
     public void openUIPanel(JPanel panel) {
@@ -81,7 +84,6 @@ public class LoginUI {
         StudentUI studentUI = new StudentUI(student);
         studentUI.createPanel();
         openUIPanel(studentUI.getPanel());
-        frame.setSize(1200, 675);
     }
     
     public void openLecturerUI() {
@@ -89,7 +91,10 @@ public class LoginUI {
         LecturerUI lecturerUI = new LecturerUI(lecturer);
         lecturerUI.createPanel();
         openUIPanel(lecturerUI.getPanel());
-        frame.setSize(1200, 675);
+    }
+    
+    public JPanel getPanel() {
+        return panel;
     }
 
 }
